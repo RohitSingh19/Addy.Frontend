@@ -9,7 +9,7 @@ import { AddyResponse } from '../model/addy.response.model';
 })
 export class AddyService {
 
-  apiBaseUrl = environment.API_BASE_URL;
+  // apiBaseUrl = environment.API_BASE_URL;
   constructor(private http: HttpClient) { }
 
 
