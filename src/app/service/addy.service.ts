@@ -14,7 +14,7 @@ export class AddyService {
 
 
   getFullURL(key: string) {
-      return this.http.get(this.apiBaseUrl + key, {responseType: 'text'});
+      return this.http.get<AddyResponse>('https://localhost:44303/api/addy/' + key);
   }
   
 
