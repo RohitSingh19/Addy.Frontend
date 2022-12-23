@@ -1,13 +1,21 @@
 <form [formGroup]="singleUrlForm" (ngSubmit)="onFormSubmit()">
     <div class="row">
-        <div class="col-md-12">
-            <input type="text" formControlName="rawUrlInput" class="form-control" placeholder="Enter your url here">
+        <div class="offset-2 col-8">
+            <div class="row">
+                <div class="col-9">
+                    <input type="text" formControlName="rawUrlInput" class="form-control rawUrlInput"
+                             placeholder="Enter your long url here">
+                </div>
+                <div class="col-3">
+                    <input type="submit" value="Make Addyy Url !" class="btn btn-dark">
+                </div>
+            </div>
         </div>
     </div>
     <br>
     <div class="row">
         <div class="col-md-12">
-            <input type="submit" value="Make short url!" class="btn btn-primary">
+            
         </div>
     </div>
     <br>
