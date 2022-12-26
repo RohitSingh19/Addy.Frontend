@@ -7,18 +7,23 @@ import { HttpClientModule  } from '@angular/common/http';
 import { AddyUrlComponent } from './addy-url/addy-url.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgxTippyModule } from 'ngx-tippy-wrapper';
+import { AddyyBulkUrlComponent } from './addyy-bulk-url/addyy-bulk-url.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddyUrlComponent
+    AddyUrlComponent,
+    AddyyBulkUrlComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    QRCodeModule
+    QRCodeModule,
+    NgxTippyModule
   ],
   providers: [],
   bootstrap: [AppComponent]

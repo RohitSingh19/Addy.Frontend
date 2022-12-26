@@ -3,3 +3,18 @@
     border-color: #343a40;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(73, 72, 72, 0.6);
 }
+
+.addyy-url-area {
+    font-weight: 800;
+    cursor: pointer;
+}
+
+
+.icon {
+    cursor: pointer;
+    font-size: xx-large;
+}
+
+.dark {
+    color: black;
+}
