@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { AddyService } from '../service/addy.service';
-import * as XLSX from 'xlsx';
 import { AddyResponse, Url } from '../model/addy.response.model';
-
-
-
-
+import * as XLSX from 'xlsx';
+import { ToastService } from '../service/toastr.service';
 @Component({
   selector: 'app-addy-url',
   templateUrl: './addy-url.component.html',
@@ -15,40 +12,62 @@ import { AddyResponse, Url } from '../model/addy.response.model';
 export class AddyUrlComponent implements OnInit {
 
   addyyForm!: FormGroup;
+  responseUrl: Url[] = [];
+  addyUrl:string = '';
+  isUrlCopied = false;
   excelData: any[] = [];
   urls: any[] = [];
-  responseUrl: Url[] = [];
-  addytestUrl = 'https://addyy.netlify.app/abcdfed';
-  isUrlCopied = false;
+  excelUploadStart : boolean = false;
+  responseBulkURLForExport: Url[] = [];
+  
   constructor(private formBuilder: FormBuilder,
-              private addyService: AddyService) { }
+              private addyService: AddyService,
+              private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.addyyForm = this.formBuilder.group({
-        rawUrlInput: ['', Validators.required]
+        rawUrlInput: ['', Validators.required],
+        fileInput: null
     });
   }
 
   onFormSubmit() {
-    let rawUrl = this.addyyForm.controls['rawUrlInput'].value;
-    if(rawUrl) {
+
+    this.excelData.length = 0;
+    this.excelUploadStart = false;
+    let rawUrlControl = this.addyyForm.controls['rawUrlInput'] as FormControl;
+    
+    if(rawUrlControl.value) {
+        if(this.isRestrictedDomain(rawUrlControl.value)) {
+          this.toastService.ToastWarning('Sorry! this domain is restricted', 'Addyy!');
+          return;
+        }
         let addyReq = [];
-        addyReq.push({url: rawUrl});
+        addyReq.push({url: rawUrlControl.value});
+        rawUrlControl.patchValue('');
         this.addyService.createAddyUrl(addyReq).subscribe((response: AddyResponse) => {
-            console.log(response);
+            if(response.isSuccess) {
+                this.addyUrl = response.data[0].addyUrl;
+                this.toastService.ToastSuccess('Addyy Url created successfully!', 'Addyy!');
+            }
+        }, (err) => {
+          console.log(err);
+          this.toastService.ToastError('Something is broker. Pls try again later', 'Addyy!');
         });
     }
   }
-
-  copyMessage(text: string) {
-    navigator.clipboard.writeText(text)
-    .then(() => {
-      this.isUrlCopied = !this.isUrlCopied;
-    })
-    .catch(e => console.log(e));
-  }
   
- 
+  isRestrictedDomain(domain: string):boolean {
+    const {hostname} = new URL(domain);
+    return this.addyService.IsThisRestrictedDomain(hostname);
+  }
+
+  uploadClickHandler() {
+    this.addyUrl = ''; /*clear single url response options*/
+    let element: HTMLElement = document.querySelector('input[type="file"]') as HTMLElement;
+    element.click();
+    this.excelUploadStart = true;
+  }
 
   submitExcelData() {
     this.urls.length = 0;
@@ -59,7 +78,7 @@ export class AddyUrlComponent implements OnInit {
         let obj = this.excelData[i];
         let val = obj[firstCell];
         this.urls.push(val);
-    }      
+    } 
     this.createBulkAddyUrl();
   }
 
@@ -72,7 +91,12 @@ export class AddyUrlComponent implements OnInit {
     this.addyService.createAddyUrl(addyReq).subscribe((response: AddyResponse) => {
         if(response.isSuccess) {
             this.responseUrl = response.data;
+            this.excelUploadStart = false;
+            this.responseBulkURLForExport = response.data;
+            this.toastService.ToastSuccess('Addyy Url created successfully!', 'Addyy!');
         }
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -100,62 +124,15 @@ export class AddyUrlComponent implements OnInit {
  }
 
 
- onNavigateUrl() {
-  alert();
- }
  
- getMailString():string {
-  return `mailto:?Subject=Addy URL &body=${this.addytestUrl}`;
- }
-
- saveAsImage(parent: any) {
-  let parentElement = null
-  parentElement = parent.qrcElement.nativeElement.querySelector("canvas").toDataURL("image/png")
-
-  // this can be used to download any image from webpage to local disk
-  let xhr = new XMLHttpRequest();
-  xhr.responseType = 'blob';
-  xhr.onload = function () {
-      let a = document.createElement('a');
-      a.href = window.URL.createObjectURL(xhr.response);
-      a.download = 'image_name.png';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    };
-    xhr.open('GET', parentElement); // This is to download the canvas Image
-    xhr.send();
-  
-
-  // if (parentElement) {
-  //   // converts base 64 encoded image to blobData
-  //   let blobData = this.convertBase64ToBlob(parentElement)
-  //   // saves as image
-  //   const blob = new Blob([blobData], { type: "image/png" })
-  //   const url = window.URL.createObjectURL(blob)
-  //   const link = document.createElement("a")
-  //   link.href = url
-  //   // name of the file
-  //   link.download = "Qrcode"
-  //   link.click()
-  // }
-}
-
-private convertBase64ToBlob(Base64Image: string) {
-  // split into two parts
-  const parts = Base64Image.split(";base64,")
-  // hold the content type
-  const imageType = parts[0].split(":")[1]
-  // decode base64 string
-  const decodedData = window.atob(parts[1])
-  // create unit8array of size same as row data length
-  const uInt8Array = new Uint8Array(decodedData.length)
-  // insert all character code into uint8array
-  for (let i = 0; i < decodedData.length; ++i) {
-    uInt8Array[i] = decodedData.charCodeAt(i)
+ fireEvent() {
+  if(this.responseBulkURLForExport) {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.responseBulkURLForExport);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Addyy-Data");
+    /* save to file */
+    XLSX.writeFile(wb, "AddyyUrls.xlsx");
+    this.toastService.ToastSuccess('File downloaded successfully!', 'Addyy!');
   }
-  // return blob image after conversion
-  return new Blob([uInt8Array], { type: imageType })
 }
 }

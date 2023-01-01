@@ -4,17 +4,34 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(73, 72, 72, 0.6);
 }
 
-.addyy-url-area {
+.addyy-url {
     font-weight: 800;
     cursor: pointer;
+    font-size: 23px;
 }
 
-
-.icon {
+.pointer {
     cursor: pointer;
-    font-size: xx-large;
 }
 
 .dark {
     color: black;
 }
+
+.btn {
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 360px) {
+    .btn {
+        font-weight: 700;
+        margin-top: 5px;
+    }
+}
+@media only screen and (max-width: 540px) {
+    .btn {
+        font-weight: 700;
+        margin-top: 5px;
+    }
+}
+

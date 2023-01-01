@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12 text-center">
+        <span class="icon-wrapper">
+            <i class="fa fa-share-square-o fa-lg icon" (click)="onNavigateUrl()" aria-hidden="true" ngxTippy
+                data-tippy-content="Visit Url"></i>
+        </span>
+        <span class="icon-wrapper">
+            <i class="fa fa-clone fa-lg icon" (click)="copyMessage(addyUrl)" aria-hidden="true" ngxTippy
+                data-tippy-content="Copy to clipboard"></i>
+        </span>
+        <span class="icon-wrapper">
+            <a [href]="getMailString()" target="_top">
+                <i class="fa fa-envelope fa-lg icon dark" aria-hidden="true" ngxTippy
+                    data-tippy-content="Share on Email"></i>
+            </a>
+        </span>
+        <span class="icon-wrapper">
+            <i class="fa fa-qrcode fa-lg icon" (click)="saveAsImage(qrCode)" aria-hidden="true" ngxTippy
+                data-tippy-content="Download QR Code"></i>
+        </span>
+        <span class="icon-wrapper">
+            <a href="https://api.whatsapp.com/send?&text=urlencodedtext">
+                <i class="fa fa-whatsapp fa-lg icon dark" aria-hidden="true" ngxTippy
+                    data-tippy-content="Share on WhatsApp"></i>
+            </a>
+        </span>
+        <span style="display: none;">
+            <qrcode #qrCode id="addyy-qr-code" [qrdata]="addyUrl" [errorCorrectionLevel]="'M'">
+            </qrcode>
+        </span>
+    </div>
+</div>

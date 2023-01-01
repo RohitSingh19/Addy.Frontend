@@ -1,0 +1,33 @@
+.icon-wrapper {
+    padding: 4px;
+}
+.icon {
+    cursor: pointer;
+    font-size: inherit;
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: #bfc3c9;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.dark {
+    color: black;
+}
+
+@media only screen and (max-width: 360px) {
+    .qrCode {
+        display: none;
+    }
+    
+}
+@media only screen and (max-width: 540px) {
+    .icon {
+        font-size: medium;
+        padding: 7px;;
+    }
+}
+
