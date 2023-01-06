@@ -52,7 +52,7 @@ export class AddyUrlComponent implements OnInit {
             }
         }, (err) => {
           console.log(err);
-          this.toastService.ToastError('Something is broker. Pls try again later', 'Addyy!');
+          this.toastService.ToastError('Something is broken. Pls try again later', 'Addyy!');
         });
     }
   }
@@ -93,7 +93,7 @@ export class AddyUrlComponent implements OnInit {
             this.responseUrl = response.data;
             this.excelUploadStart = false;
             this.responseBulkURLForExport = response.data;
-            this.toastService.ToastSuccess('Addyy Url created successfully!', 'Addyy!');
+            this.toastService.ToastSuccess('Url created successfully!', 'Addyy!');
         }
     }, err => {
       console.log(err);
