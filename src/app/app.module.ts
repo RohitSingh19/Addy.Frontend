@@ -10,7 +10,6 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { NgxTippyModule } from 'ngx-tippy-wrapper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { AddyyBulkUrlComponent } from './addyy-bulk-url/addyy-bulk-url.component';
 import { AddyyRedirectComponent } from './addyy-redirect/addyy-redirect.component';
 import { EllipsesPipe } from './shared/Pipes/ellipses.pipe';
 import { AddyyToolsComponent } from './addyy-tools/addyy-tools.component';
@@ -20,7 +19,6 @@ import { AddyyToolsComponent } from './addyy-tools/addyy-tools.component';
   declarations: [
     AppComponent,
     AddyUrlComponent,
-    AddyyBulkUrlComponent,
     AddyyRedirectComponent,
     EllipsesPipe,
     AddyyToolsComponent

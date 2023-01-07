@@ -4,6 +4,8 @@ import { AddyService } from '../service/addy.service';
 import { AddyResponse, Url } from '../model/addy.response.model';
 import * as XLSX from 'xlsx';
 import { ToastService } from '../service/toastr.service';
+
+
 @Component({
   selector: 'app-addy-url',
   templateUrl: './addy-url.component.html',
@@ -13,12 +15,13 @@ export class AddyUrlComponent implements OnInit {
 
   addyyForm!: FormGroup;
   responseUrl: Url[] = [];
-  addyUrl:string = '';
+  addyUrl:string = 'https://addyy.netlify.app/5VYfYV';
   isUrlCopied = false;
   excelData: any[] = [];
   urls: any[] = [];
   excelUploadStart : boolean = false;
   responseBulkURLForExport: Url[] = [];
+  uploadedFileName: string = '';
   
   constructor(private formBuilder: FormBuilder,
               private addyService: AddyService,
@@ -39,7 +42,7 @@ export class AddyUrlComponent implements OnInit {
     
     if(rawUrlControl.value) {
         if(this.isRestrictedDomain(rawUrlControl.value)) {
-          this.toastService.ToastWarning('Sorry! this domain is restricted', 'Addyy!');
+          this.toastService.ToastWarning('Sorry! this domain is restricted');
           return;
         }
         let addyReq = [];
@@ -48,11 +51,11 @@ export class AddyUrlComponent implements OnInit {
         this.addyService.createAddyUrl(addyReq).subscribe((response: AddyResponse) => {
             if(response.isSuccess) {
                 this.addyUrl = response.data[0].addyUrl;
-                this.toastService.ToastSuccess('Addyy Url created successfully!', 'Addyy!');
+                this.toastService.ToastSuccess('Addyy Url created successfully!');
             }
         }, (err) => {
           console.log(err);
-          this.toastService.ToastError('Something is broken. Pls try again later', 'Addyy!');
+          this.toastService.ToastError('Something is broken. Pls try again later');
         });
     }
   }
@@ -70,6 +73,10 @@ export class AddyUrlComponent implements OnInit {
   }
 
   submitExcelData() {
+    if(this.excelData.length === 0)  {
+      return this.toastService.ToastWarning('Please choose file to uplaod');
+    }
+      
     this.urls.length = 0;
     const header = Object.keys(this.excelData[0]);
     const firstCell = header[0];
@@ -79,7 +86,9 @@ export class AddyUrlComponent implements OnInit {
         let val = obj[firstCell];
         this.urls.push(val);
     } 
-    this.createBulkAddyUrl();
+
+    if(this.urls.length > 0)
+        this.createBulkAddyUrl();
   }
 
 
@@ -93,10 +102,11 @@ export class AddyUrlComponent implements OnInit {
             this.responseUrl = response.data;
             this.excelUploadStart = false;
             this.responseBulkURLForExport = response.data;
-            this.toastService.ToastSuccess('Url created successfully!', 'Addyy!');
+            this.toastService.ToastSuccess('Url created successfully!');
         }
     }, err => {
       console.log(err);
+      this.toastService.ToastError('Something is broken. Pls try again later');
     });
   }
 
@@ -120,6 +130,7 @@ export class AddyUrlComponent implements OnInit {
       /* save data */
       const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
       this.excelData = data;
+      this.toastService.ToastInfo(`File ${target.files[0].name} uploaded successfully!`);
     };
  }
 
@@ -131,8 +142,9 @@ export class AddyUrlComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Addyy-Data");
     /* save to file */
-    XLSX.writeFile(wb, "AddyyUrls.xlsx");
-    this.toastService.ToastSuccess('File downloaded successfully!', 'Addyy!');
+    XLSX.writeFile(wb, `AddyyUrls_${new Date().getMilliseconds()}.xlsx`);
+    this.toastService.ToastSuccess('File downloaded successfully!');
   }
-}
+  
+  }
 }

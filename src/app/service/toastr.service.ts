@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class ToastService {
+  
+  appName = environment.App_Name;
+
   constructor(private toastr: ToastrService) {}
 
-  ToastSuccess(msg: string, title: string) {
-    this.toastr.success(msg, title);
+  ToastSuccess(msg: string) {
+    this.toastr.success(msg, this.appName);
   }
 
-  ToastError(msg: string, title: string) {
-    this.toastr.error(msg, title);
+  ToastError(msg: string) {
+    this.toastr.error(msg, this.appName);
   }
 
-  ToastInfo(msg: string, title: string) {
-    this.toastr.info(msg, title);
+  ToastInfo(msg: string) {
+    this.toastr.info(msg, this.appName);
   }
 
-  ToastWarning(msg: string, title: string) {
-    this.toastr.warning(msg, title);
+  ToastWarning(msg: string) {
+    this.toastr.warning(msg, this.appName);
   }
   
 }

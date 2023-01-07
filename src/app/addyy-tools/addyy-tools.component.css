@@ -1,5 +1,6 @@
+
 .icon-wrapper {
-    padding: 4px;
+    padding: 2px;
 }
 .icon {
     cursor: pointer;
@@ -7,7 +8,7 @@
     border: 2px solid black;
     padding: 10px;
     border-radius: 7px;
-    background-color: #bfc3c9;
+    background-color: #e0e1e3;
 }
 
 .pointer {
@@ -22,12 +23,24 @@
     .qrCode {
         display: none;
     }
+    .icon {
+        font-size: medium;
+        padding: 5px;
+    }
+    .icon-wrapper {
+        padding: 1px;
+    }
     
 }
 @media only screen and (max-width: 540px) {
     .icon {
         font-size: medium;
-        padding: 7px;;
+        padding: 5px;
+    }
+    .icon-wrapper {
+        padding: 1px;
     }
 }
+
+
 

@@ -18,7 +18,7 @@ export class AddyyToolsComponent {
     navigator.clipboard.writeText(text)
     .then(() => {
         this.isUrlCopied = !this.isUrlCopied;
-        this.toastService.ToastSuccess('Url Copied !', 'Addyy !')
+        this.toastService.ToastSuccess('Url Copied !')
     })
     .catch(e => console.log(e));
   }
@@ -33,13 +33,26 @@ export class AddyyToolsComponent {
       }
     });
   }
-  getMailString():string {
-    return `mailto:?Subject=Addyy URL &body=${this.addyUrl}`;
- }
+ 
+  getWhatsAppText() {
+    return `https://api.whatsapp.com/send?&text=_Hi, I have created this short url using *Addyy* ${this.addyUrl}_`;
+  }
 
- saveAsImage(parent: any) {
-    let parentElement = parent.qrcElement.nativeElement.querySelector("canvas").toDataURL("image/png");
-    this.addyService.saveQRCodeAsImage(parentElement);
-    this.toastService.ToastSuccess('QR Downloaded Successfully', 'Addyy !');
+  saveAsImage(parent: any) {
+      let parentElement = parent.qrcElement.nativeElement.querySelector("canvas").toDataURL("image/png");
+      this.addyService.saveQRCodeAsImage(parentElement);
+      this.toastService.ToastSuccess('QR Downloaded Successfully');
+  }
+
+  getMailString():string {
+    return `mailto:?Subject= ${this.getSubject()} &body=${this.getBody()}`;
+  }
+
+  private getSubject(): string {
+    return `Addyy URL`
+  }
+
+  private getBody(): string {
+    return ` ${this.addyUrl}`;
   }
 }

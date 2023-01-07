@@ -41,22 +41,22 @@
         </div>
     </div>
     <br>
-    <div class="row" *ngIf="responseUrl && responseUrl.length > 0">
-        <div class="col-md-8 offset-md-2 col-xs-12 align-self-center">
+    <div class="row bulk-url-wrapper-large-screen" *ngIf="responseUrl && responseUrl.length > 0">
+        <div class="col-md-6 offset-md-3 col-xs-12 align-self-center">
             <div class="table-responsive">
                 <table class="table table-striped w-auto" #addyyTable>
                     <thead>
                         <tr>
                             <th>##</th>
                             <th>Your Url</th>
-                            <th>Addy Url</th>
+                            <th>Addyy Url</th>
                             <th>QR Code</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let url of responseUrl; let i = index">
                             <td>
-                             <span class="pointer">{{i+1}}</span>
+                                <span class="pointer">{{i+1}}</span>
                             </td>
                             <td>
                                 <span class="pointer" [ngxTippy]="url.rawUrl">{{url.rawUrl | ellipses}}</span>
@@ -69,6 +69,38 @@
                             </td>
                         </tr>
                     </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row bulk-url-wrapper-small-screen" *ngIf="responseUrl && responseUrl.length > 0">
+        <div class="col-md-4 offset-md-4 col-xs-12 align-self-center">
+            <div class="table-responsive">
+                <table class="table w-auto addyy-small-screen-table" #addyyTable>
+                    <ng-container *ngFor="let url of responseUrl; let i = index">
+                        <tr>
+                            <th rowspan="3">
+                                <span class="pointer">{{i+1}}</span>
+                            </th>
+                            <th>Your Url</th>
+                            <td>
+                                <span class="pointer" [ngxTippy]="url.rawUrl">{{url.rawUrl | ellipses}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">
+                                Addyy Url
+                            </th>
+                            <td>
+                                <span class="pointer">{{url.addyUrl}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <app-addyy-tools addyUrl={{url.addyUrl}}></app-addyy-tools>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </table>
             </div>
         </div>

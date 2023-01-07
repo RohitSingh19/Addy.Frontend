@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 .rawUrlInput:focus {
     border-color: #343a40;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(73, 72, 72, 0.6);
@@ -27,11 +27,54 @@
         font-weight: 700;
         margin-top: 5px;
     }
+
+    .addyy-url {
+        font-weight: 500;
+    }
+    .bulk-url-wrapper-large-screen {
+        display: none;
+    }
+    .bulk-url-wrapper-small-screen {
+        display: block;
+    }
 }
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 698px) {
     .btn {
         font-weight: 700;
         margin-top: 5px;
     }
+    .addyy-url {
+        font-weight: 500;
+    }
+    .bulk-url-wrapper-large-screen {
+        display: none;
+    }
+    .bulk-url-wrapper-small-screen {
+        display: block;
+    }
 }
 
+@media only screen and (min-width: 699px)  and (max-width: 1920px){
+    .bulk-url-wrapper-large-screen {
+        display: block;
+    }
+    .bulk-url-wrapper-small-screen {
+        display: none;
+    }
+}
+
+
+
+.addyy-small-screen-table, th, td {
+    border: 1px solid #d1caca;
+    border-collapse: collapse;
+}
+
+.addyy-small-screen-table, th {
+    text-align: center;   
+}
+  
+.addyy-small-screen-table, th, td {
+    padding: 5px;
+    text-align: left;
+}
