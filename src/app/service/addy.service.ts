@@ -24,23 +24,35 @@ export class AddyService {
   }
   
   saveQRCodeAsImage(element: any) {
-  let xhr = new XMLHttpRequest();
-  xhr.responseType = 'blob';
-  xhr.onload = function () {
-      let a = document.createElement('a');
-      a.href = window.URL.createObjectURL(xhr.response);
-      a.download = 'ADDYY_QR_CODE.png';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    };
-    xhr.open('GET', element); // This is to download the canvas Image
-    xhr.send();
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = 'ADDYY_QR_CODE.png';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      };
+      xhr.open('GET', element); // This is to download the canvas Image
+      xhr.send();
   }
 
   IsThisRestrictedDomain(domain: string) {
     const restrictedDomains = new RestrictedDomains();
     return restrictedDomains.domains.includes(domain);
+  }
+
+  IsValidUrl(inputUrl: string): boolean {
+    let url;
+    try
+    {
+      url = new URL(inputUrl);
+    }
+    catch(_) {
+      return false;
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:';
   }
 }

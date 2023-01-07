@@ -15,7 +15,7 @@ export class AddyUrlComponent implements OnInit {
 
   addyyForm!: FormGroup;
   responseUrl: Url[] = [];
-  addyUrl:string = 'https://addyy.netlify.app/5VYfYV';
+  addyUrl:string = '';
   isUrlCopied = false;
   excelData: any[] = [];
   urls: any[] = [];
@@ -41,10 +41,15 @@ export class AddyUrlComponent implements OnInit {
     let rawUrlControl = this.addyyForm.controls['rawUrlInput'] as FormControl;
     
     if(rawUrlControl.value) {
-        if(this.isRestrictedDomain(rawUrlControl.value)) {
-          this.toastService.ToastWarning('Sorry! this domain is restricted');
-          return;
+
+      if(!this.addyService.IsValidUrl(rawUrlControl.value)) {
+        return this.toastService.ToastError('Not a valid URL');
         }
+
+        if(this.isRestrictedDomain(rawUrlControl.value)) {
+          return this.toastService.ToastWarning('Sorry! this domain is restricted');
+        }
+
         let addyReq = [];
         addyReq.push({url: rawUrlControl.value});
         rawUrlControl.patchValue('');
@@ -84,11 +89,16 @@ export class AddyUrlComponent implements OnInit {
     {
         let obj = this.excelData[i];
         let val = obj[firstCell];
+        if(!this.addyService.IsValidUrl(val)) {
+          return this.toastService.ToastError('Invalid Url found in file, Please remove before uplaod');
+        }
         this.urls.push(val);
     } 
 
-    if(this.urls.length > 0)
-        this.createBulkAddyUrl();
+    if(this.urls.length > 20) 
+    return this.toastService.ToastWarning('Not more than 20 Urls are allowed');
+
+    this.createBulkAddyUrl();
   }
 
 
@@ -102,7 +112,7 @@ export class AddyUrlComponent implements OnInit {
             this.responseUrl = response.data;
             this.excelUploadStart = false;
             this.responseBulkURLForExport = response.data;
-            this.toastService.ToastSuccess('Url created successfully!');
+            this.toastService.ToastSuccess(`${this.responseUrl.length} Url created successfully!`);
         }
     }, err => {
       console.log(err);
@@ -144,7 +154,6 @@ export class AddyUrlComponent implements OnInit {
     /* save to file */
     XLSX.writeFile(wb, `AddyyUrls_${new Date().getMilliseconds()}.xlsx`);
     this.toastService.ToastSuccess('File downloaded successfully!');
-  }
-  
-  }
+  } 
+ }
 }
