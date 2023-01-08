@@ -1,8 +1,19 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12 align-self-center">
-        <div>
-            <p class="no-data-found">Hey! it looks you have n't created any Addyy Url. 😒😒</p>    
+        <div *ngIf="addyHistory.length == 0">
+            <p class="no-data-found">Hey! your histroy looks empty because you have n't created any Addyy Url. 😒😒
+                Start creating one!
+            </p>    
         </div>
-
+        <div *ngIf="addyHistory.length > 0">
+            <div class="row history-item" *ngFor="let history of addyHistory; let i = index">
+                <div class="col-md-6 col-xs-6">
+                    <p>{{history.addyUrl}}</p>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <app-addyy-tools addyUrl={{history.addyUrl}}></app-addyy-tools>
+                </div>
+            </div>
+        </div>  
     </div>
-</div> -->
+</div>

@@ -13,19 +13,23 @@ export class HistoryService {
     constructor() {}
 
     saveHistoryUrl(addyResponse: AddyResponse) {
-        const history = this.getAllHistoryUrl();
-        const addyy = addyResponse.data[0];
-        const addyHash = this.getAddyHash(addyy.addyUrl);
-        const historyUrl: Url = {addyUrl: addyy.addyUrl, hash: addyHash};
-        history.push(historyUrl);
-        localStorage.setItem(this.localStorageKey, JSON.stringify(historyUrl));
+        addyResponse.data.forEach((addyy) => {
+            const addyHash = this.getAddyHash(addyy.addyUrl);
+            if(!this.getHistoryUrl(addyHash)) {
+                const history = this.getAllHistoryUrl();
+                const url: Url = {addyUrl: addyy.addyUrl, hash: addyHash};
+                this.historyUrl = [...history];
+                this.historyUrl.push(url);
+                localStorage.setItem(this.localStorageKey, JSON.stringify(this.historyUrl));
+            };
+        });
     }
 
     getAllHistoryUrl(): Url[] {
         const obj = localStorage.getItem(this.localStorageKey);
         if(obj) {
-            const history: Url[] = JSON.parse(obj);
-            return history;
+            const data: Url[] = JSON.parse(obj);
+            return data;
         }
         return [];
     }

@@ -20,8 +20,19 @@
             </div>
         </div>
     </div>
+    <div class="row align-self-center">
+        <div class="col-md-12 col-xs-12 text-center">
+            <a class="history-link" (click)="toggleHistory()">{{historyBtnText}}</a>
+        </div>
+    </div>
     <br>
-    <div class="row" *ngIf="addyUrl.length > 0">
+    <div class="row" *ngIf="showHistory">
+        <div class="col-md-12 col-xs-12 align-self-center">
+            <app-history></app-history>
+        </div>
+    </div>
+    <br>
+    <div class="row" *ngIf="addyUrl.length > 0 && !showHistory">
         <div class="col-md-6 offset-md-3 col-xs-12 align-self-center">
             <div class="row">
                 <div class="col-md-12 col-xs-12 text-center">
@@ -41,7 +52,7 @@
         </div>
     </div>
     <br>
-    <div class="row bulk-url-wrapper-large-screen" *ngIf="responseUrl && responseUrl.length > 0">
+    <div class="row bulk-url-wrapper-large-screen" *ngIf="responseUrl && responseUrl.length > 0 && !showHistory">
         <div class="col-md-6 offset-md-3 col-xs-12 align-self-center">
             <div class="table-responsive">
                 <table class="table table-striped w-auto" #addyyTable>
@@ -72,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="row bulk-url-wrapper-small-screen" *ngIf="responseUrl && responseUrl.length > 0">
+    <div class="row bulk-url-wrapper-small-screen" *ngIf="responseUrl && responseUrl.length > 0 && !showHistory">
         <div class="col-md-4 offset-md-4 col-xs-12 align-self-center">
             <div class="table-responsive">
                 <table class="table w-auto addyy-small-screen-table" #addyyTable>
@@ -104,7 +115,7 @@
             </div>
         </div>
     </div>
-    <div class="row align-self-center" *ngIf="responseUrl && responseUrl.length > 0">
+    <div class="row align-self-center" *ngIf="responseUrl && responseUrl.length > 0 && !showHistory">
         <div class="col-xs-12 col-md-12 text-center">
             <button type="button" class="btn btn-dark text-center" (click)="fireEvent()">Download As Excel</button>
         </div>

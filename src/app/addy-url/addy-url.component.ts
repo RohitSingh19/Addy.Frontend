@@ -23,7 +23,8 @@ export class AddyUrlComponent implements OnInit {
   excelUploadStart : boolean = false;
   responseBulkURLForExport: Url[] = [];
   uploadedFileName: string = '';
-  
+  showHistory: boolean = false;
+  historyBtnText: string = 'Show history';
   constructor(private formBuilder: FormBuilder,
               private addyService: AddyService,
               private toastService: ToastService,
@@ -35,7 +36,10 @@ export class AddyUrlComponent implements OnInit {
         fileInput: null
     });
   }
-
+  toggleHistory() {
+    this.showHistory = !this.showHistory;
+    this.historyBtnText = this.showHistory ? 'Hide history' : 'Show history';
+  }
   onFormSubmit() {
 
     this.excelData.length = 0;
@@ -58,7 +62,8 @@ export class AddyUrlComponent implements OnInit {
         this.addyService.createAddyUrl(addyReq).subscribe((response: AddyResponse) => {
             if(response.isSuccess) {
                 this.addyUrl = response.data[0].addyUrl;
-                // this.historyService.saveHistoryUrl(response);
+                this.historyService.saveHistoryUrl(response);
+                this.toggleHistory();
                 this.toastService.ToastSuccess('Addyy Url created successfully!');
             }
         }, (err) => {
@@ -78,6 +83,8 @@ export class AddyUrlComponent implements OnInit {
     let element: HTMLElement = document.querySelector('input[type="file"]') as HTMLElement;
     element.click();
     this.excelUploadStart = true;
+    if(this.showHistory)
+      this.toggleHistory();
   }
 
   submitExcelData() {
@@ -116,12 +123,13 @@ export class AddyUrlComponent implements OnInit {
             this.excelUploadStart = false;
             this.responseBulkURLForExport = response.data;
             this.toastService.ToastSuccess(`${this.responseUrl.length} Url created successfully!`);
+            this.historyService.saveHistoryUrl(response);
         }
     }, err => {
       console.log(err);
       this.toastService.ToastError('Something is broken. Pls try again later');
     });
-  }
+  }  
 
   onFileChange(event: any) {
     /* wire up file reader */
