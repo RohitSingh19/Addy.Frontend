@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { AddyUrlComponent } from './addy-url/addy-url.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
@@ -13,6 +13,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddyyRedirectComponent } from './addyy-redirect/addyy-redirect.component';
 import { EllipsesPipe } from './shared/Pipes/ellipses.pipe';
 import { AddyyToolsComponent } from './addyy-tools/addyy-tools.component';
+import { CacheIterceptor } from './shared/cache.interceptor';
+import { HistoryComponent } from './history/history.component';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { AddyyToolsComponent } from './addyy-tools/addyy-tools.component';
     AddyUrlComponent,
     AddyyRedirectComponent,
     EllipsesPipe,
-    AddyyToolsComponent
+    AddyyToolsComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,9 @@ import { AddyyToolsComponent } from './addyy-tools/addyy-tools.component';
       tapToDismiss: true
     }),
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: CacheIterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

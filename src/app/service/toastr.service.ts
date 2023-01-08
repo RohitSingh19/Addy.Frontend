@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
     providedIn: 'root'
 })

@@ -3,3 +3,15 @@
     margin-top: 20px;
 }
 
+.sidebar {
+    position: relative;
+    width: 250px;
+    height: 100vh;
+    background: #ff2;
+  }
+  
+  .main-layout {
+    display: flex;
+    flex-direction: row;
+  }
+  

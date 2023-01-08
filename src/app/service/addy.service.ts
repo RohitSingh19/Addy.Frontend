@@ -4,7 +4,6 @@ import { environment } from '../../environments/environment';
 import { AddyResponse } from '../model/addy.response.model';
 import { RestrictedDomains } from '../shared/RestrictedDomains';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -55,4 +54,6 @@ export class AddyService {
     }
     return url.protocol === 'http:' || url.protocol === 'https:';
   }
+
+  
 }

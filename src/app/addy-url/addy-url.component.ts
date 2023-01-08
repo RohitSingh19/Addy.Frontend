@@ -4,6 +4,7 @@ import { AddyService } from '../service/addy.service';
 import { AddyResponse, Url } from '../model/addy.response.model';
 import * as XLSX from 'xlsx';
 import { ToastService } from '../service/toastr.service';
+import { HistoryService } from '../service/history.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class AddyUrlComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
               private addyService: AddyService,
-              private toastService: ToastService) { }
+              private toastService: ToastService,
+              private historyService: HistoryService) { }
 
   ngOnInit(): void {
     this.addyyForm = this.formBuilder.group({
@@ -56,6 +58,7 @@ export class AddyUrlComponent implements OnInit {
         this.addyService.createAddyUrl(addyReq).subscribe((response: AddyResponse) => {
             if(response.isSuccess) {
                 this.addyUrl = response.data[0].addyUrl;
+                // this.historyService.saveHistoryUrl(response);
                 this.toastService.ToastSuccess('Addyy Url created successfully!');
             }
         }, (err) => {

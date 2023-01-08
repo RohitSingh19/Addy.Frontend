@@ -1,34 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { AddyResponse } from './model/addy.response.model';
-import { AddyService } from './service/addy.service';
-import { Router } from '@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [
+    trigger('slidein', [
+      transition(':enter', [
+        // when ngif has true
+        style({ transform: 'translateX(-100%)' }),
+        animate(250, style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        // when ngIf has false
+        animate(250, style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit {
-  title = 'Addy';
+  title = 'Addyy';
 
   ngOnInit(): void {
   }
   
-  constructor(private addyService: AddyService, private router: Router) {
-    let key = window.location.pathname;
-    if(key.length > 4) {
-      key = key.substring(1, key.length);
-      this.addyService.getFullURL(key).subscribe((response: AddyResponse) => {
-        if(response && response.isSuccess) {
-          let url = response.data;
-          window.location.href = url[0].rawUrl;
-        }
-      });
-    } else {
-      this.router.navigate(['/app']);
-    }
-    
+  expanded: boolean = false;
+
+  constructor() {
   }
 
-  
+  toggleSideNav () {
+    
+  }
 }
