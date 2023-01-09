@@ -17,7 +17,7 @@ export class HistoryService {
             const addyHash = this.getAddyHash(addyy.addyUrl);
             if(!this.getHistoryUrl(addyHash)) {
                 const history = this.getAllHistoryUrl();
-                const url: Url = {addyUrl: addyy.addyUrl, hash: addyHash};
+                const url: Url = {addyUrl: addyy.addyUrl, hash: addyHash, rawUrl: addyy.rawUrl};
                 this.historyUrl = [...history];
                 this.historyUrl.push(url);
                 localStorage.setItem(this.localStorageKey, JSON.stringify(this.historyUrl));

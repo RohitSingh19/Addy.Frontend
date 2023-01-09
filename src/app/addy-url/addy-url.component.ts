@@ -63,7 +63,9 @@ export class AddyUrlComponent implements OnInit {
             if(response.isSuccess) {
                 this.addyUrl = response.data[0].addyUrl;
                 this.historyService.saveHistoryUrl(response);
-                this.toggleHistory();
+                if(this.showHistory)
+                    this.toggleHistory();
+
                 this.toastService.ToastSuccess('Addyy Url created successfully!');
             }
         }, (err) => {

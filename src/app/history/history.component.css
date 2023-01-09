@@ -10,8 +10,12 @@
     text-align: left !important;
 }
 
-.history-item p{
-    font-size: large;
+.history-item .addy-url{
+    font-size: initial;
     font-style: oblique;
-    font-weight: 600;
+    font-weight: 400;
+}
+
+.history-item .raw-url {
+    font-size: small;
 }
