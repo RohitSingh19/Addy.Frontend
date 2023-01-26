@@ -3,15 +3,29 @@
     margin-top: 20px;
 }
 
-.sidebar {
-    position: relative;
-    width: 250px;
-    height: 100vh;
-    background: #ff2;
-  }
-  
+ 
   .main-layout {
     display: flex;
     flex-direction: row;
   }
   
+  .main-content {
+    min-height: 525px;
+  }
+
+  
+  .footer {
+    color: black;
+    font-size: larger;
+    font-weight: bolder;
+  }
+
+  .footer-item .icon {
+    margin-left:4px ;
+    cursor: pointer;
+    color: #343a40;
+  }
+
+  .footer-item .icon :hover {
+    color: black;
+  }

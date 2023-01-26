@@ -53,7 +53,7 @@
     </div>
     <br>
     <div class="row bulk-url-wrapper-large-screen" *ngIf="responseUrl && responseUrl.length > 0 && !showHistory">
-        <div class="col-md-6 offset-md-3 col-xs-12 align-self-center">
+        <div class="col-md-6 offset-md-3 col-xs-12 align-self-center" [ngClass]="{'large-screen-div': responseUrl.length > 7}">
             <div class="table-responsive">
                 <table class="table table-striped w-auto" #addyyTable>
                     <thead>
@@ -69,7 +69,7 @@
                                 <span class="pointer">{{i+1}}</span>
                             </td>
                             <td>
-                                <span class="pointer" [ngxTippy]="url.rawUrl">{{url.rawUrl | ellipses}}</span>
+                                <span class="pointer" [ngxTippy]="url.rawUrl">{{url.rawUrl | ellipses: 20}}</span>
                             </td>
                             <td>
                                 <span class="pointer">{{url.addyUrl}}</span>
@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="row bulk-url-wrapper-small-screen" *ngIf="responseUrl && responseUrl.length > 0 && !showHistory">
-        <div class="col-md-4 offset-md-4 col-xs-12 align-self-center">
+        <div class="col-md-4 offset-md-4 col-xs-12 align-self-center" [ngClass]="{'small-screen-div': responseUrl.length > 7}">
             <div class="table-responsive">
                 <table class="table w-auto addyy-small-screen-table" #addyyTable>
                     <ng-container *ngFor="let url of responseUrl; let i = index">
